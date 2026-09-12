@@ -57,7 +57,7 @@ const products = [
         name: 'Bistek - Taco individual',
         price: 19,
         emoji: '🌮',
-        image: 'images/tacos-bistek.jpg',
+        image: 'images/orden-bistek.jpg',
         hasVariants: false
     },
     {
@@ -66,7 +66,7 @@ const products = [
         name: 'Bistek con Queso - Orden',
         price: 95,
         emoji: '🌮',
-        image: 'images/gringa-queso.jpg',
+        image: 'images/tacos-bistek.jpg',
         hasVariants: false
     },
     {
@@ -75,7 +75,7 @@ const products = [
         name: 'Bistek con Queso - Taco individual',
         price: 22,
         emoji: '🌮',
-        image: 'images/gringa-queso.jpg',
+        image: 'images/tacos-bistek.jpg',
         hasVariants: false
     },
     {
@@ -110,7 +110,7 @@ const products = [
         name: 'Pirata',
         price: 0,
         emoji: '🌮',
-        image: 'images/tacos-orden.jpg',
+        image: 'images/gringa.jpg',
         hasVariants: true,
         variants: [
             { id: 'chico', label: 'Chico', price: 80 },
@@ -125,7 +125,7 @@ const products = [
         name: 'Hamburguesa Especial',
         price: 70,
         emoji: '🍔',
-        image: 'images/hamburguesa.jpg',
+        image: 'images/hamburguesa-2.jpg',
         hasVariants: false
     },
     {
@@ -181,7 +181,7 @@ const products = [
         name: 'Papa Asada con Queso',
         price: 80,
         emoji: '🥔',
-        image: 'images/papa-asada.jpg',
+        image: 'images/papaqueso.jpg',
         hasVariants: false
     },
     {
@@ -264,7 +264,7 @@ const products = [
         name: 'Torta de Bistek, Trompo o Mixta',
         price: 110,
         emoji: '🥪',
-        image: 'images/torta.jpg',
+        image: 'images/hamburguesa.jpg',
         hasVariants: true,
         variants: [
             { id: 'bistek', label: 'Bistek', price: 110 },

@@ -68,10 +68,10 @@
             <nav class="nav" id="nav">
                 <ul class="nav-list">
                     <li><a href="#inicio" class="nav-link">Inicio</a></li>
-                    <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
                     <li><a href="#menu" class="nav-link">Menú</a></li>
                     <li><a href="#promociones" class="nav-link">Promociones</a></li>
                     <li><a href="#como-pedir" class="nav-link">Cómo pedir</a></li>
+                    <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
                     <li><a href="#contacto" class="nav-link">Contacto</a></li>
                 </ul>
             </nav>
@@ -442,110 +442,233 @@
         </div>
     </footer>
 
-    <!-- Cart Drawer -->
+    <!-- Modal pedido centrado -->
     <div class="cart-overlay" id="cartOverlay"></div>
-    <aside class="cart-drawer" id="cartDrawer" aria-label="Carrito de compras">
-        <div class="cart-header">
-            <h2>Tu Pedido 🛒</h2>
-            <button class="cart-close" id="cartClose" aria-label="Cerrar carrito">✕</button>
+    <div class="order-modal" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Arma tu pedido">
+        <div class="order-modal-header">
+            <h2><span class="order-modal-icon">🛒</span> ARMA TU PEDIDO</h2>
+            <button class="cart-close" id="cartClose" aria-label="Cerrar">✕</button>
         </div>
-        
-        <div class="cart-body" id="cartBody">
-            <div class="cart-empty" id="cartEmpty">
-                <span class="empty-icon">🌮</span>
-                <p>Tu carrito está vacío</p>
-                <a href="#menu" class="btn btn-primary btn-sm" id="goToMenu">Ver menú</a>
-            </div>
-            <div class="cart-items" id="cartItems"></div>
+
+        <div class="order-tabs" role="tablist">
+            <button type="button" class="order-tab active" data-tab="pedido" role="tab" aria-selected="true">
+                🛒 Pedido <span class="tab-count" id="tabCartCount">0</span>
+            </button>
+            <button type="button" class="order-tab" data-tab="paquetes" role="tab" aria-selected="false">🔥 Paquetes</button>
+            <button type="button" class="order-tab" data-tab="menu" role="tab" aria-selected="false">🌮 Menú</button>
+            <button type="button" class="order-tab" data-tab="extras" role="tab" aria-selected="false">＋ Extras</button>
+            <button type="button" class="order-tab" data-tab="datos" role="tab" aria-selected="false">📋 Datos</button>
         </div>
-        
-        <div class="cart-footer" id="cartFooter" style="display: none;">
-            <!-- Modalidad -->
-            <div class="cart-section">
-                <h3>¿Cómo quieres recibir tu pedido?</h3>
-                <div class="modality-options">
-                    <label class="modality-option">
-                        <input type="radio" name="modality" value="domicilio" id="modDomicilio">
-                        <span class="modality-card">
-                            <span class="modality-icon">🚚</span>
-                            <span>A DOMICILIO</span>
-                            <small>+$30 envío</small>
-                        </span>
-                    </label>
-                    <label class="modality-option">
-                        <input type="radio" name="modality" value="recoger" id="modRecoger">
-                        <span class="modality-card">
-                            <span class="modality-icon">🛍️</span>
-                            <span>PASAR A RECOGER</span>
-                            <small>Sin costo extra</small>
-                        </span>
-                    </label>
-                </div>
-            </div>
-            
-            <!-- Datos del cliente -->
-            <div class="cart-section">
-                <h3>Datos del cliente</h3>
-                <div class="form-group">
-                    <label for="customerName">Nombre *</label>
-                    <input type="text" id="customerName" placeholder="Tu nombre completo" required>
-                </div>
-                <div class="form-group">
-                    <label for="customerPhone">Teléfono *</label>
-                    <input type="tel" id="customerPhone" placeholder="81 1234 5678" required>
-                </div>
-                <div class="form-group" id="addressGroup" style="display: none;">
-                    <label for="customerAddress">Dirección *</label>
-                    <textarea id="customerAddress" placeholder="Calle, número, colonia, referencias..." rows="2"></textarea>
-                </div>
-            </div>
-            
-            <!-- Método de pago -->
-            <div class="cart-section">
-                <h3>Forma de pago</h3>
-                <div class="payment-options">
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="efectivo" id="payEfectivo">
-                        <span class="payment-card">💵 Efectivo</span>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="transferencia" id="payTransferencia">
-                        <span class="payment-card">🏦 Transferencia</span>
-                    </label>
-                </div>
-                <div class="transfer-note" id="transferNote" style="display: none;">
-                    Al seleccionar transferencia, nuestro equipo confirmará el pago antes de preparar el pedido.
-                    <br><small>Datos bancarios: Información pendiente de agregar</small>
-                </div>
-            </div>
-            
-            <!-- Resumen -->
-            <div class="cart-section summary">
-                <h3>Resumen de tu pedido</h3>
-                <div class="summary-lines" id="summaryLines"></div>
-                <div class="summary-totals">
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span id="subtotalAmount">$0</span>
+
+        <div class="order-modal-body">
+            <!-- TAB: PEDIDO -->
+            <div class="order-panel active" id="panel-pedido" role="tabpanel">
+                <div class="order-status-banner" id="orderStatusBanner"></div>
+                <div class="cart-empty" id="cartEmpty">
+                    <p>Tu pedido está vacío. Agrega promociones, paquetes o complementos.</p>
+                    <p class="cart-note">“Si hay lluvia el costo de envío puede variar”</p>
+                    <div class="empty-actions">
+                        <button type="button" class="btn btn-primary btn-sm switch-tab" data-tab="paquetes">Ver paquetes</button>
+                        <button type="button" class="btn btn-secondary btn-sm switch-tab" data-tab="menu">Ver menú</button>
                     </div>
-                    <div class="summary-row shipping-row" id="shippingRow" style="display: none;">
-                        <span>Envío</span>
-                        <span id="shippingAmount">$30</span>
+                </div>
+                <div class="cart-items" id="cartItems"></div>
+                <button type="button" class="btn-vaciar" id="clearCart">🗑 Vaciar pedido</button>
+            </div>
+
+            <!-- TAB: PAQUETES / PROMOCIONES -->
+            <div class="order-panel" id="panel-paquetes" role="tabpanel" hidden>
+                <p class="panel-intro">Elige un paquete o promoción y agrégalo a tu pedido:</p>
+                <div class="modal-product-list" id="modalPaquetes">
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>2 Gringas Chicas</strong>
+                            <span class="modal-product-meta">Todos los días · antes $130</span>
+                        </div>
+                        <span class="modal-product-price">$109</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-gringas" data-name="PROMO: 2 Gringas Chicas" data-price="109" data-category="promociones">＋</button>
                     </div>
-                    <div class="summary-row total">
-                        <span>Total</span>
-                        <span id="totalAmount">$0</span>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>3 Órdenes Tlaquepaque + Pepsi 1.5L</strong>
+                            <span class="modal-product-meta">Todos los días · antes $320</span>
+                        </div>
+                        <span class="modal-product-price">$285</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-tlaquepaque" data-name="PROMO: 3 Órdenes Tlaquepaque + Pepsi 1.5L GRATIS" data-price="285" data-category="promociones">＋</button>
+                    </div>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>3 Hamburguesas Especiales</strong>
+                            <span class="modal-product-meta">Todos los días · antes $225</span>
+                        </div>
+                        <span class="modal-product-price">$199</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-hamb" data-name="PROMO: 3 Hamburguesas Especiales" data-price="199" data-category="promociones">＋</button>
+                    </div>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>2 Órdenes de Trompo</strong>
+                            <span class="modal-product-meta">Mar · Mié · Jue · Dom · antes $150</span>
+                        </div>
+                        <span class="modal-product-price">$119</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-trompo" data-name="PROMO: 2 Órdenes de Trompo (Mar-Mié-Jue-Dom)" data-price="119" data-category="promociones">＋</button>
+                    </div>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>Tlaquepaque — Orden de 5 tacos</strong>
+                            <span class="modal-product-meta">Especialidad</span>
+                        </div>
+                        <span class="modal-product-price">$95</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="tlaq-orden" data-name="Tlaquepaque - Orden de 5 tacos" data-price="95" data-category="especialidades">＋</button>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- TAB: MENÚ -->
+            <div class="order-panel" id="panel-menu" role="tabpanel" hidden>
+                <div class="modal-menu-filters" id="modalMenuFilters">
+                    <button type="button" class="modal-filter active" data-cat="all">Todo</button>
+                    <button type="button" class="modal-filter" data-cat="tacos">Tacos</button>
+                    <button type="button" class="modal-filter" data-cat="hamburguesas">Hamburguesas</button>
+                    <button type="button" class="modal-filter" data-cat="papas">Papas</button>
+                    <button type="button" class="modal-filter" data-cat="tortas">Tortas</button>
+                    <button type="button" class="modal-filter" data-cat="frijoles">Frijoles</button>
+                </div>
+                <div class="modal-product-list" id="modalMenuList"></div>
+            </div>
+
+            <!-- TAB: EXTRAS -->
+            <div class="order-panel" id="panel-extras" role="tabpanel" hidden>
+                <p class="panel-intro">Complementos y bebidas:</p>
+                <div class="modal-product-list">
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>Refresco 600 ml</strong>
+                        </div>
+                        <span class="modal-product-price">$28</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="refresco-600" data-name="Refresco 600 ml" data-price="28" data-category="refrescos">＋</button>
+                    </div>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>Pepsi 1.5 L</strong>
+                        </div>
+                        <span class="modal-product-price">$35</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="pepsi-15" data-name="Pepsi 1.5 L" data-price="35" data-category="refrescos">＋</button>
+                    </div>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>Papas a la Francesa</strong>
+                        </div>
+                        <span class="modal-product-price">$45</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="papas-francesa" data-name="Papas a la Francesa" data-price="45" data-category="papas">＋</button>
+                    </div>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>Papas a la Francesa con Queso</strong>
+                        </div>
+                        <span class="modal-product-price">$55</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="papas-francesa-queso" data-name="Papas a la Francesa con Queso" data-price="55" data-category="papas">＋</button>
+                    </div>
+                    <div class="modal-product-row">
+                        <div class="modal-product-info">
+                            <strong>Frijoles Charros Sencillos (1/2 L)</strong>
+                        </div>
+                        <span class="modal-product-price">$35</span>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="frijoles-sencillos" data-name="Frijoles Charros Sencillos (1/2 Litro)" data-price="35" data-category="frijoles">＋</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: DATOS -->
+            <div class="order-panel" id="panel-datos" role="tabpanel" hidden>
+                <div class="cart-section">
+                    <h3>¿Cómo quieres recibir tu pedido?</h3>
+                    <div class="modality-options">
+                        <label class="modality-option">
+                            <input type="radio" name="modality" value="domicilio" id="modDomicilio">
+                            <span class="modality-card">
+                                <span class="modality-icon">🚚</span>
+                                <span>A DOMICILIO</span>
+                                <small>+$30 envío</small>
+                            </span>
+                        </label>
+                        <label class="modality-option">
+                            <input type="radio" name="modality" value="recoger" id="modRecoger">
+                            <span class="modality-card">
+                                <span class="modality-icon">🛍️</span>
+                                <span>PASAR A RECOGER</span>
+                                <small>Sin costo extra</small>
+                            </span>
+                        </label>
+                    </div>
+                    <p class="cart-note">Si hay lluvia el costo de envío puede variar.</p>
+                </div>
+
+                <div class="cart-section">
+                    <h3>Datos del cliente</h3>
+                    <div class="form-group">
+                        <label for="customerName">Nombre *</label>
+                        <input type="text" id="customerName" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Teléfono *</label>
+                        <input type="tel" id="customerPhone" placeholder="81 1234 5678" required>
+                    </div>
+                    <div class="form-group" id="addressGroup" style="display: none;">
+                        <label for="customerAddress">Dirección *</label>
+                        <textarea id="customerAddress" placeholder="Calle, número, colonia, referencias..." rows="2"></textarea>
+                    </div>
+                </div>
+
+                <div class="cart-section">
+                    <h3>Forma de pago</h3>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="efectivo" id="payEfectivo">
+                            <span class="payment-card">💵 Efectivo</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="transferencia" id="payTransferencia">
+                            <span class="payment-card">🏦 Transferencia</span>
+                        </label>
+                    </div>
+                    <div class="transfer-note" id="transferNote" style="display: none;">
+                        Al seleccionar transferencia, nuestro equipo confirmará el pago antes de preparar el pedido.
+                        <br><small>Datos bancarios: Información pendiente de agregar</small>
+                    </div>
+                </div>
+
+                <div class="cart-section summary">
+                    <h3>Resumen</h3>
+                    <div class="summary-lines" id="summaryLines"></div>
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotalAmount">$0</span>
+                        </div>
+                        <div class="summary-row shipping-row" id="shippingRow" style="display: none;">
+                            <span>Envío</span>
+                            <span id="shippingAmount">$30</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="totalAmount">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-modal-footer">
+            <div class="order-total-bar">
+                <span>Total:</span>
+                <strong id="footerTotal">$0</strong>
+            </div>
             <button class="btn btn-whatsapp btn-block" id="confirmOrder">
                 📲 CONFIRMAR PEDIDO POR WHATSAPP
             </button>
-            
-            <button class="btn btn-outline btn-block btn-sm" id="clearCart">Vaciar carrito</button>
+            <p class="order-footer-hint" id="orderFooterHint">Completa la pestaña <strong>Datos</strong> para enviar tu pedido</p>
         </div>
-    </aside>
+    </div>
 
     <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/528119047379?text=Hola%20Taquer%C3%ADa%20La%20Hacienda%2C%20quiero%20realizar%20un%20pedido." 

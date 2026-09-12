@@ -57,7 +57,7 @@ const products = [
         name: 'Bistek - Taco individual',
         price: 19,
         emoji: '🌮',
-        image: 'images/orden-bistek.jpg',
+        image: 'images/tacos-bistek.jpg',
         hasVariants: false
     },
     {
@@ -66,7 +66,7 @@ const products = [
         name: 'Bistek con Queso - Orden',
         price: 95,
         emoji: '🌮',
-        image: 'images/tacos-bistek.jpg',
+        image: 'images/gringa-queso.jpg',
         hasVariants: false
     },
     {
@@ -75,7 +75,7 @@ const products = [
         name: 'Bistek con Queso - Taco individual',
         price: 22,
         emoji: '🌮',
-        image: 'images/tacos-bistek.jpg',
+        image: 'images/gringa-queso.jpg',
         hasVariants: false
     },
     {
@@ -110,7 +110,7 @@ const products = [
         name: 'Pirata',
         price: 0,
         emoji: '🌮',
-        image: 'images/gringa.jpg',
+        image: 'images/tacos-orden.jpg',
         hasVariants: true,
         variants: [
             { id: 'chico', label: 'Chico', price: 80 },
@@ -125,7 +125,7 @@ const products = [
         name: 'Hamburguesa Especial',
         price: 70,
         emoji: '🍔',
-        image: 'images/hamburguesa-2.jpg',
+        image: 'images/hamburguesa.jpg',
         hasVariants: false
     },
     {
@@ -181,7 +181,7 @@ const products = [
         name: 'Papa Asada con Queso',
         price: 80,
         emoji: '🥔',
-        image: 'images/papaqueso.jpg',
+        image: 'images/papa-asada.jpg',
         hasVariants: false
     },
     {
@@ -264,7 +264,7 @@ const products = [
         name: 'Torta de Bistek, Trompo o Mixta',
         price: 110,
         emoji: '🥪',
-        image: 'images/hamburguesa.jpg',
+        image: 'images/torta.jpg',
         hasVariants: true,
         variants: [
             { id: 'bistek', label: 'Bistek', price: 110 },
@@ -323,6 +323,107 @@ let cart = [];
 const SHIPPING_COST = 30;
 const WHATSAPP_NUMBER = '528119047379';
 
+/*
+ * ============================================================
+ *  BANNER DE TEMPORADA — edita aquí cada mes / evento
+ *  months: array de meses (1 = enero … 12 = diciembre)
+ *  Si varios coinciden, gana el primero de la lista.
+ *  active: false → no se muestra aunque el mes coincida
+ * ============================================================
+ */
+const SEASONAL_EVENTS = [
+    {
+        id: 'patrio',
+        months: [9],
+        active: true,
+        theme: 'theme-patrio',
+        emoji: '🇲🇽',
+        title: '¡Mes Patrio!',
+        message: 'Celebra septiembre con el sabor de la tradición mexicana. ¡Viva México!',
+        cta: 'Ver menú especial',
+        ctaLink: '#promociones'
+    },
+    {
+        id: 'halloween',
+        months: [10],
+        active: true,
+        theme: 'theme-halloween',
+        emoji: '🎃',
+        title: 'Halloween en La Hacienda',
+        message: 'Pedidos con sabor de miedo… bueno, de antojo. ¡Aprovecha el mes!',
+        cta: 'Pedir ahora',
+        ctaLink: '#promociones'
+    },
+    {
+        id: 'muertos',
+        months: [11],
+        // Día de Muertos suele ser inicio de noviembre; puedes dejarlo todo el mes
+        active: true,
+        theme: 'theme-muertos',
+        emoji: '🕯️',
+        title: 'Día de Muertos',
+        message: 'Honramos la tradición con tacos que saben a casa y a México.',
+        cta: 'Ver ofertas',
+        ctaLink: '#promociones'
+    },
+    {
+        id: 'navidad',
+        months: [12],
+        active: true,
+        theme: 'theme-navidad',
+        emoji: '🎄',
+        title: 'Navidad en La Hacienda',
+        message: 'Comparte la mesa con los tuyos. Pedidos para reuniones y cenas especiales.',
+        cta: 'Armar pedido',
+        ctaLink: '#promociones'
+    },
+    {
+        id: 'anio-nuevo',
+        months: [1],
+        active: true,
+        theme: 'theme-anio-nuevo',
+        emoji: '🎆',
+        title: 'Año Nuevo',
+        message: 'Empieza el año con el mejor sabor. ¡Pedidos listos para celebrar!',
+        cta: 'Ver menú',
+        ctaLink: '#menu'
+    },
+    {
+        id: 'amor',
+        months: [2],
+        active: true,
+        theme: 'theme-amor',
+        emoji: '💕',
+        title: 'Día del Amor y la Amistad',
+        message: 'El mejor regalo: tacos para dos (o para toda la familia).',
+        cta: 'Pedir para compartir',
+        ctaLink: '#promociones'
+    },
+    {
+        id: 'madre',
+        months: [5],
+        active: true,
+        theme: 'theme-madre',
+        emoji: '💐',
+        title: 'Día de las Madres',
+        message: 'Este mes celebramos a mamá con el sabor de siempre.',
+        cta: 'Regálale un pedido',
+        ctaLink: '#promociones'
+    },
+    {
+        id: 'padre',
+        months: [6],
+        active: true,
+        theme: 'theme-padre',
+        emoji: '👔',
+        title: 'Día del Padre',
+        message: 'Para el jefe de la casa: órdenes generosas y mucho sabor.',
+        cta: 'Ver paquetes',
+        ctaLink: '#promociones'
+    }
+    // Para forzar un aviso fuera de temporada, agrega months: [1,2,3...] y active: true
+];
+
 // ===== DOM ELEMENTS =====
 const menuGrid = document.getElementById('menuGrid');
 const cartBtn = document.getElementById('cartBtn');
@@ -348,6 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initActiveNavOnScroll();
     initLightbox();
     initOrderTabs();
+    initSeasonalBanner();
 });
 
 // ===== RENDER MENÚ =====
@@ -1167,5 +1269,44 @@ function renderModalMenu(category) {
             cartBtn.classList.add('bounce');
             setTimeout(() => cartBtn.classList.remove('bounce'), 400);
         });
+    });
+}
+
+// ===== BANNER DE TEMPORADA =====
+function initSeasonalBanner() {
+    const banner = document.getElementById('seasonalBanner');
+    if (!banner) return;
+
+    const month = new Date().getMonth() + 1; // 1-12
+    const event = SEASONAL_EVENTS.find(e => e.active && e.months.includes(month));
+
+    // Si el usuario ya lo cerró este mes, no mostrar
+    const dismissKey = event ? `seasonal_dismiss_${event.id}_${new Date().getFullYear()}_${month}` : null;
+    if (event && dismissKey && localStorage.getItem(dismissKey) === '1') {
+        banner.hidden = true;
+        return;
+    }
+
+    if (!event) {
+        banner.hidden = true;
+        return;
+    }
+
+    banner.className = 'seasonal-banner ' + (event.theme || 'theme-default');
+    document.getElementById('seasonalEmoji').textContent = event.emoji || '🎉';
+    document.getElementById('seasonalTitle').textContent = event.title || '';
+    document.getElementById('seasonalMessage').textContent = event.message || '';
+
+    const cta = document.getElementById('seasonalCta');
+    if (cta) {
+        cta.textContent = event.cta || 'Ver ofertas';
+        cta.href = event.ctaLink || '#promociones';
+    }
+
+    banner.hidden = false;
+
+    document.getElementById('seasonalClose')?.addEventListener('click', () => {
+        banner.hidden = true;
+        if (dismissKey) localStorage.setItem(dismissKey, '1');
     });
 }

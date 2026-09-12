@@ -849,21 +849,38 @@ function setupEventListeners() {
     });
 }
 
+let _scrollLockY = 0;
+
 function openCart() {
+    _scrollLockY = window.scrollY || window.pageYOffset;
     cartDrawer.classList.add('active');
     cartOverlay.classList.add('active');
+    // Bloqueo de scroll robusto en iOS/Android
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${_scrollLockY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
     const waFloat = document.querySelector('.whatsapp-float');
     if (waFloat) waFloat.style.visibility = 'hidden';
     updateOpenStatus();
+    cartDrawer.setAttribute('aria-hidden', 'false');
 }
 
 function closeCart() {
     cartDrawer.classList.remove('active');
     cartOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo(0, _scrollLockY);
     const waFloat = document.querySelector('.whatsapp-float');
     if (waFloat) waFloat.style.visibility = '';
+    cartDrawer.setAttribute('aria-hidden', 'true');
 }
 
 function showToast(message, isError = false) {
@@ -973,15 +990,19 @@ function initLightbox() {
         lightboxImg.src = src;
         lightboxImg.alt = alt || 'Promoción';
         lightbox.hidden = false;
-        // force reflow for transition
         void lightbox.offsetWidth;
         lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        // Solo bloquear body si el modal de pedido no está abierto
+        if (!cartDrawer.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     function closeLightbox() {
         lightbox.classList.remove('active');
-        document.body.style.overflow = '';
+        if (!cartDrawer.classList.contains('active')) {
+            document.body.style.overflow = '';
+        }
         setTimeout(() => {
             if (!lightbox.classList.contains('active')) {
                 lightbox.hidden = true;
@@ -1009,8 +1030,12 @@ function initLightbox() {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-            closeLightbox();
+        if (e.key === 'Escape') {
+            if (lightbox.classList.contains('active')) {
+                closeLightbox();
+            } else if (cartDrawer.classList.contains('active')) {
+                closeCart();
+            }
         }
     });
 }
@@ -1032,6 +1057,10 @@ function switchOrderTab(tabId) {
         const active = tab.dataset.tab === tabId;
         tab.classList.toggle('active', active);
         tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        if (active) {
+            // Centrar la pestaña activa en el scroll horizontal (móvil)
+            tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
     });
 
     document.querySelectorAll('.order-panel').forEach(panel => {
@@ -1043,6 +1072,10 @@ function switchOrderTab(tabId) {
             panel.hidden = true;
         }
     });
+
+    // Volver arriba del contenido al cambiar de pestaña
+    const body = document.querySelector('.order-modal-body');
+    if (body) body.scrollTop = 0;
 }
 
 function renderModalMenu(category) {

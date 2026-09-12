@@ -297,6 +297,173 @@ button, input, textarea, select {
     transition: all var(--transition);
 }
 
+/* ===== BANNER DE TEMPORADA ===== */
+.seasonal-banner {
+    position: sticky;
+    top: var(--header-height, 70px);
+    z-index: 90;
+    background: linear-gradient(90deg, #1a3a1a 0%, #0d5c2e 50%, #1a3a1a 100%);
+    color: #fff;
+    overflow: hidden;
+}
+
+.seasonal-banner[hidden] {
+    display: none !important;
+}
+
+.seasonal-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    position: relative;
+}
+
+.seasonal-emoji {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    line-height: 1;
+    animation: seasonalPulse 2.2s ease-in-out infinite;
+}
+
+.seasonal-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.3;
+}
+
+.seasonal-text strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.seasonal-text span {
+    font-size: 0.82rem;
+    opacity: 0.92;
+}
+
+.seasonal-cta {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 10px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, background 0.2s ease;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.seasonal-cta:hover {
+    transform: scale(1.04);
+    background: #fff;
+}
+
+.seasonal-close {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seasonal-close:hover {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+@keyframes seasonalPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}
+
+/* Temas por temporada */
+.seasonal-banner.theme-patrio {
+    background: linear-gradient(90deg, #006847 0%, #ce1126 50%, #006847 100%);
+}
+
+.seasonal-banner.theme-halloween {
+    background: linear-gradient(90deg, #1a0a2e 0%, #ff6b00 45%, #2d1b4e 100%);
+}
+
+.seasonal-banner.theme-navidad {
+    background: linear-gradient(90deg, #0b3d2e 0%, #c41e3a 50%, #0b3d2e 100%);
+}
+
+.seasonal-banner.theme-amor {
+    background: linear-gradient(90deg, #8b0a1a 0%, #e91e63 50%, #8b0a1a 100%);
+}
+
+.seasonal-banner.theme-muertos {
+    background: linear-gradient(90deg, #1a0a00 0%, #ff8c00 40%, #4a0080 100%);
+}
+
+.seasonal-banner.theme-madre {
+    background: linear-gradient(90deg, #4a1942 0%, #e75480 50%, #4a1942 100%);
+}
+
+.seasonal-banner.theme-padre {
+    background: linear-gradient(90deg, #1a237e 0%, #1565c0 50%, #1a237e 100%);
+}
+
+.seasonal-banner.theme-anio-nuevo {
+    background: linear-gradient(90deg, #0d1b2a 0%, #d4a017 45%, #0d1b2a 100%);
+}
+
+.seasonal-banner.theme-default {
+    background: linear-gradient(90deg, #3d1a00 0%, #c41e3a 50%, #3d1a00 100%);
+}
+
+@media (max-width: 600px) {
+    .seasonal-inner {
+        flex-wrap: wrap;
+        padding: 12px 12px 14px;
+        gap: 8px;
+        padding-right: 44px;
+    }
+
+    .seasonal-text strong {
+        font-size: 0.9rem;
+    }
+
+    .seasonal-text span {
+        font-size: 0.78rem;
+    }
+
+    .seasonal-cta {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+        order: 3;
+    }
+
+    .seasonal-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .seasonal-emoji {
+        font-size: 1.4rem;
+    }
+}
+
 /* ===== HERO ===== */
 .hero {
     position: relative;

@@ -90,6 +90,19 @@
         </div>
     </header>
 
+    <!-- Banner de temporada (se actualiza solo según el mes) -->
+    <div class="seasonal-banner" id="seasonalBanner" hidden>
+        <div class="container seasonal-inner">
+            <span class="seasonal-emoji" id="seasonalEmoji" aria-hidden="true"></span>
+            <div class="seasonal-text">
+                <strong id="seasonalTitle"></strong>
+                <span id="seasonalMessage"></span>
+            </div>
+            <a href="#promociones" class="seasonal-cta" id="seasonalCta">Ver ofertas</a>
+            <button type="button" class="seasonal-close" id="seasonalClose" aria-label="Cerrar aviso">✕</button>
+        </div>
+    </div>
+
     <!-- Hero -->
     <section class="hero" id="inicio">
         <div class="hero-overlay"></div>
@@ -446,17 +459,17 @@
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="order-modal" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Arma tu pedido">
         <div class="order-modal-header">
-            <h2><span class="order-modal-icon">🛒</span>ARMA TU PEDIDO</h2>
+            <h2><span class="order-modal-icon">🛒</span> ARMA TU PEDIDO</h2>
             <button class="cart-close" id="cartClose" aria-label="Cerrar">✕</button>
         </div>
 
         <div class="order-tabs" role="tablist">
             <button type="button" class="order-tab active" data-tab="pedido" role="tab" aria-selected="true">
-                🛒 Pedido <span class="tab-count" id="tabCartCount">0</span>
-            </button> <!-- 🔥🌮📋   -->
+                🛒Pedido <span class="tab-count" id="tabCartCount">0</span>
+            </button><!--🔥🌮📋    -->
             <button type="button" class="order-tab" data-tab="paquetes" role="tab" aria-selected="false">Paquetes</button>
             <button type="button" class="order-tab" data-tab="menu" role="tab" aria-selected="false">Menú</button>
-            <button type="button" class="order-tab" data-tab="extras" role="tab" aria-selected="false">＋Extras</button>
+            <button type="button" class="order-tab" data-tab="extras" role="tab" aria-selected="false">＋ Extras</button>
             <button type="button" class="order-tab" data-tab="datos" role="tab" aria-selected="false">Datos</button>
         </div>
 

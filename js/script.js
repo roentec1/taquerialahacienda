@@ -332,7 +332,6 @@ const cartOverlay = document.getElementById('cartOverlay');
 const cartClose = document.getElementById('cartClose');
 const cartItems = document.getElementById('cartItems');
 const cartEmpty = document.getElementById('cartEmpty');
-const cartFooter = document.getElementById('cartFooter');
 const menuToggle = document.getElementById('menuToggle');
 const nav = document.getElementById('nav');
 const toast = document.getElementById('toast');
@@ -341,12 +340,14 @@ const toast = document.getElementById('toast');
 document.addEventListener('DOMContentLoaded', () => {
     loadCart();
     renderMenu('all');
+    renderModalMenu('all');
     setupEventListeners();
     updateOpenStatus();
     setInterval(updateOpenStatus, 60000); // cada minuto
     initScrollAnimations();
     initActiveNavOnScroll();
     initLightbox();
+    initOrderTabs();
 });
 
 // ===== RENDER MENÚ =====
@@ -520,31 +521,32 @@ function updateCartUI() {
     const count = cart.reduce((sum, i) => sum + i.quantity, 0);
     cartCount.textContent = count;
     
+    const tabCount = document.getElementById('tabCartCount');
+    if (tabCount) tabCount.textContent = count;
+    
     if (cart.length === 0) {
-        cartEmpty.style.display = 'block';
-        cartItems.innerHTML = '';
-        cartFooter.style.display = 'none';
-        return;
+        if (cartEmpty) cartEmpty.style.display = 'block';
+        if (cartItems) cartItems.innerHTML = '';
+    } else {
+        if (cartEmpty) cartEmpty.style.display = 'none';
+        if (cartItems) {
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        ${item.variant ? `<div class="cart-item-variant">${item.variant}</div>` : ''}
+                        <div class="cart-item-price">$${item.price} c/u · $${item.subtotal}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="qty-btn" onclick="updateQuantity('${item.cartKey}', -1)" aria-label="Disminuir">−</button>
+                        <span class="qty-value">${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity('${item.cartKey}', 1)" aria-label="Aumentar">+</button>
+                        <button class="remove-btn" onclick="removeFromCart('${item.cartKey}')" aria-label="Eliminar">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
     }
-    
-    cartEmpty.style.display = 'none';
-    cartFooter.style.display = 'block';
-    
-    cartItems.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <div class="cart-item-info">
-                <div class="cart-item-name">${item.name}</div>
-                ${item.variant ? `<div class="cart-item-variant">${item.variant}</div>` : ''}
-                <div class="cart-item-price">$${item.price} c/u</div>
-            </div>
-            <div class="cart-item-controls">
-                <button class="qty-btn" onclick="updateQuantity('${item.cartKey}', -1)" aria-label="Disminuir">−</button>
-                <span class="qty-value">${item.quantity}</span>
-                <button class="qty-btn" onclick="updateQuantity('${item.cartKey}', 1)" aria-label="Aumentar">+</button>
-                <button class="remove-btn" onclick="removeFromCart('${item.cartKey}')" aria-label="Eliminar">🗑️</button>
-            </div>
-        </div>
-    `).join('');
     
     updateSummary();
 }
@@ -554,25 +556,36 @@ function updateSummary() {
     const shipping = calculateShipping();
     const total = subtotal + shipping;
     
-    document.getElementById('subtotalAmount').textContent = `$${subtotal}`;
-    document.getElementById('totalAmount').textContent = `$${total}`;
+    const subEl = document.getElementById('subtotalAmount');
+    const totEl = document.getElementById('totalAmount');
+    const footerTot = document.getElementById('footerTotal');
+    
+    if (subEl) subEl.textContent = `$${subtotal}`;
+    if (totEl) totEl.textContent = `$${total}`;
+    if (footerTot) footerTot.textContent = `$${total}`;
     
     const shippingRow = document.getElementById('shippingRow');
-    if (shipping > 0) {
-        shippingRow.style.display = 'flex';
-        document.getElementById('shippingAmount').textContent = `$${shipping}`;
-    } else {
-        shippingRow.style.display = 'none';
+    if (shippingRow) {
+        if (shipping > 0) {
+            shippingRow.style.display = 'flex';
+            const shipAmt = document.getElementById('shippingAmount');
+            if (shipAmt) shipAmt.textContent = `$${shipping}`;
+        } else {
+            shippingRow.style.display = 'none';
+        }
     }
     
-    // Summary lines
     const summaryLines = document.getElementById('summaryLines');
-    summaryLines.innerHTML = cart.map(item => `
-        <div class="summary-line">
-            <span>${item.quantity}x ${item.name}</span>
-            <span>$${item.subtotal}</span>
-        </div>
-    `).join('');
+    if (summaryLines) {
+        summaryLines.innerHTML = cart.length
+            ? cart.map(item => `
+                <div class="summary-line">
+                    <span>${item.quantity}x ${item.name}</span>
+                    <span>$${item.subtotal}</span>
+                </div>
+            `).join('')
+            : '<p style="color:var(--color-gray);font-size:0.85rem;">Sin productos aún</p>';
+    }
 }
 
 // ===== LOCAL STORAGE =====
@@ -733,12 +746,26 @@ function updateOpenStatus() {
     // Caso especial: si son las 00:xx - 01:xx de un día, el horario pertenece al día anterior
     // La lógica anterior ya lo contempla porque currentMinutes < 60 o < 120
     
-    if (isOpen) {
-        badge.className = 'status-badge open';
-        badge.innerHTML = '<span class="status-dot"></span><span class="status-text">🟢 ABIERTO</span>';
-    } else {
-        badge.className = 'status-badge closed';
-        badge.innerHTML = '<span class="status-dot"></span><span class="status-text">🔴 CERRADO</span>';
+    if (badge) {
+        if (isOpen) {
+            badge.className = 'status-badge open';
+            badge.innerHTML = '<span class="status-dot"></span><span class="status-text">🟢 ABIERTO</span>';
+        } else {
+            badge.className = 'status-badge closed';
+            badge.innerHTML = '<span class="status-dot"></span><span class="status-text">🔴 CERRADO</span>';
+        }
+    }
+
+    // Banner dentro del modal de pedido
+    const banner = document.getElementById('orderStatusBanner');
+    if (banner) {
+        if (isOpen) {
+            banner.className = 'order-status-banner open';
+            banner.textContent = '🟢 Estamos abiertos. Puedes armar y confirmar tu pedido ahora.';
+        } else {
+            banner.className = 'order-status-banner';
+            banner.textContent = '😴 Estamos cerrados ahora mismo. Puedes armar tu pedido y lo confirmaremos al abrir (5:00 PM).';
+        }
     }
 }
 
@@ -757,8 +784,6 @@ function setupEventListeners() {
     cartBtn.addEventListener('click', openCart);
     cartClose.addEventListener('click', closeCart);
     cartOverlay.addEventListener('click', closeCart);
-    
-    document.getElementById('goToMenu')?.addEventListener('click', closeCart);
     
     // Mobile menu
     menuToggle.addEventListener('click', () => {
@@ -791,23 +816,36 @@ function setupEventListeners() {
     document.querySelectorAll('input[name="payment"]').forEach(radio => {
         radio.addEventListener('change', () => {
             const note = document.getElementById('transferNote');
-            note.style.display = radio.value === 'transferencia' ? 'block' : 'none';
+            if (note) note.style.display = radio.value === 'transferencia' ? 'block' : 'none';
         });
     });
     
     // Confirm order
-    document.getElementById('confirmOrder').addEventListener('click', sendWhatsAppOrder);
+    document.getElementById('confirmOrder')?.addEventListener('click', () => {
+        // Si faltan datos, ir a pestaña Datos
+        switchOrderTab('datos');
+        sendWhatsAppOrder();
+    });
     
     // Clear cart
-    document.getElementById('clearCart').addEventListener('click', () => {
-        if (confirm('¿Vaciar todo el carrito?')) {
+    document.getElementById('clearCart')?.addEventListener('click', () => {
+        if (confirm('¿Vaciar todo el pedido?')) {
             clearCart();
         }
     });
     
-    // Botones de Tlaquepaque y Promociones (fuera del grid dinámico)
-    document.querySelectorAll('.tlaquepaque .add-to-cart, .promociones .add-to-cart').forEach(btn => {
+    // Botones de Tlaquepaque, Promociones y dentro del modal
+    document.querySelectorAll('.tlaquepaque .add-to-cart, .promociones .add-to-cart, .order-modal .add-to-cart').forEach(btn => {
         btn.addEventListener('click', handleAddToCart);
+    });
+
+    // Filtros del menú dentro del modal
+    document.querySelectorAll('.modal-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.modal-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderModalMenu(btn.dataset.cat);
+        });
     });
 }
 
@@ -815,9 +853,9 @@ function openCart() {
     cartDrawer.classList.add('active');
     cartOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-    // Ocultar botón flotante mientras el carrito está abierto (mejor en móvil)
     const waFloat = document.querySelector('.whatsapp-float');
     if (waFloat) waFloat.style.visibility = 'hidden';
+    updateOpenStatus();
 }
 
 function closeCart() {
@@ -974,5 +1012,127 @@ function initLightbox() {
         if (e.key === 'Escape' && lightbox.classList.contains('active')) {
             closeLightbox();
         }
+    });
+}
+
+// ===== TABS DEL MODAL DE PEDIDO =====
+function initOrderTabs() {
+    document.querySelectorAll('.order-tab').forEach(tab => {
+        tab.addEventListener('click', () => switchOrderTab(tab.dataset.tab));
+    });
+    document.querySelectorAll('.switch-tab').forEach(btn => {
+        btn.addEventListener('click', () => switchOrderTab(btn.dataset.tab));
+    });
+}
+
+function switchOrderTab(tabId) {
+    if (!tabId) return;
+
+    document.querySelectorAll('.order-tab').forEach(tab => {
+        const active = tab.dataset.tab === tabId;
+        tab.classList.toggle('active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('.order-panel').forEach(panel => {
+        const active = panel.id === `panel-${tabId}`;
+        panel.classList.toggle('active', active);
+        if (active) {
+            panel.hidden = false;
+        } else {
+            panel.hidden = true;
+        }
+    });
+}
+
+function renderModalMenu(category) {
+    const list = document.getElementById('modalMenuList');
+    if (!list) return;
+
+    const filtered = category === 'all'
+        ? products.filter(p => p.category !== 'refrescos')
+        : products.filter(p => p.category === category);
+
+    list.innerHTML = filtered.map(product => {
+        let variantsHTML = '';
+        if (product.hasVariants) {
+            const label = product.variantLabel || 'Opción';
+            variantsHTML = `
+                <select class="modal-variant-select" data-product-id="${product.id}">
+                    ${product.variants.map(v =>
+                        `<option value="${v.id}" data-price="${v.price}">${v.label} — $${v.price}</option>`
+                    ).join('')}
+                </select>
+            `;
+        }
+
+        const displayPrice = product.hasVariants
+            ? `Desde $${Math.min(...product.variants.map(v => v.price))}`
+            : `$${product.price}`;
+
+        return `
+            <div class="modal-product-row" data-id="${product.id}">
+                <div class="modal-product-info">
+                    <strong>${product.name}</strong>
+                    <span class="modal-product-meta">${displayPrice}</span>
+                    ${variantsHTML}
+                </div>
+                <span class="modal-product-price">${product.hasVariants ? '' : '$' + product.price}</span>
+                <button class="btn btn-primary btn-sm modal-add-btn"
+                        data-id="${product.id}"
+                        data-name="${product.name}"
+                        data-price="${product.price}"
+                        data-has-variants="${product.hasVariants}">
+                    ＋
+                </button>
+            </div>
+        `;
+    }).join('');
+
+    list.querySelectorAll('.modal-add-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const id = btn.dataset.id;
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            let name = product.name;
+            let price = product.price;
+            let variant = null;
+
+            if (product.hasVariants) {
+                const select = btn.closest('.modal-product-row').querySelector('.modal-variant-select');
+                if (select) {
+                    const opt = select.options[select.selectedIndex];
+                    variant = opt.value;
+                    price = parseInt(opt.dataset.price, 10);
+                    name = `${product.name} (${opt.textContent.split('—')[0].trim()})`;
+                }
+            }
+
+            const cartKey = variant ? `${id}-${variant}` : id;
+            const existing = cart.find(item => item.cartKey === cartKey);
+
+            if (existing) {
+                existing.quantity += 1;
+                existing.subtotal = existing.quantity * existing.price;
+            } else {
+                cart.push({
+                    cartKey,
+                    id,
+                    name,
+                    price,
+                    variant,
+                    quantity: 1,
+                    subtotal: price,
+                    category: product.category
+                });
+            }
+
+            saveCart();
+            updateCartUI();
+            showToast(`${name} agregado`);
+            cartBtn.classList.add('bounce');
+            setTimeout(() => cartBtn.classList.remove('bounce'), 400);
+        });
     });
 }

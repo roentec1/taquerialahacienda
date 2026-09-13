@@ -190,7 +190,7 @@ const products = [
         name: 'Papa Asada con Carne',
         price: 95,
         emoji: '🥔',
-        image: 'images/papa-mixta.jpg',
+        image: 'images/mixto.jpg',
         hasVariants: true,
         variants: [
             { id: 'trompo', label: 'Trompo', price: 95 },

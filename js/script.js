@@ -21,7 +21,7 @@ const products = [
         name: 'Trompo - Taco individual',
         price: 17,
         emoji: '🌮',
-        image: 'images/tacos-trompo.jpg',
+        image: 'images/tacotrompoind.jpg',
         hasVariants: false
     },
     {
@@ -39,7 +39,7 @@ const products = [
         name: 'Trompo con Queso - Taco individual',
         price: 20,
         emoji: '🌮',
-        image: 'images/gringa-queso.jpg',
+        image: 'images/tacoquesoind.jpg',
         hasVariants: false
     },
     {
@@ -57,7 +57,7 @@ const products = [
         name: 'Bistek - Taco individual',
         price: 19,
         emoji: '🌮',
-        image: 'images/tacos-bistek.jpg',
+        image: 'images/tacobistek.jpg',
         hasVariants: false
     },
     {
@@ -84,7 +84,7 @@ const products = [
         name: 'Campechana',
         price: 0,
         emoji: '🌮',
-        image: 'images/mixto.jpg',
+        image: 'images/campechana.jpg',
         hasVariants: true,
         variants: [
             { id: 'chica', label: 'Chica', price: 68 },
@@ -110,7 +110,7 @@ const products = [
         name: 'Pirata',
         price: 0,
         emoji: '🌮',
-        image: 'images/tacos-orden.jpg',
+        image: 'images/pirata.jpg',
         hasVariants: true,
         variants: [
             { id: 'chico', label: 'Chico', price: 80 },
@@ -125,7 +125,7 @@ const products = [
         name: 'Hamburguesa Especial',
         price: 70,
         emoji: '🍔',
-        image: 'images/hamburguesa.jpg',
+        image: 'images/especial.jpg',
         hasVariants: false
     },
     {
@@ -244,7 +244,7 @@ const products = [
         name: 'Papas a la Francesa',
         price: 45,
         emoji: '🍟',
-        image: 'images/orden-tacos-papas.jpg',
+        image: 'images/papasfrancesa.jpg',
         hasVariants: false
     },
     {
@@ -253,7 +253,7 @@ const products = [
         name: 'Papas a la Francesa con Queso',
         price: 55,
         emoji: '🍟',
-        image: 'images/orden-tacos-papas.jpg',
+        image: 'images/papasqueso.jpg',
         hasVariants: false
     },
 
@@ -306,6 +306,7 @@ const products = [
         name: 'Refresco 600 ml',
         price: 28,
         emoji: '🥤',
+        image: 'images/600ml.jpg',
         hasVariants: false
     },
     {
@@ -314,6 +315,7 @@ const products = [
         name: 'Pepsi 1.5 L',
         price: 35,
         emoji: '🥤',
+        image: 'images/pepsi.jpg',
         hasVariants: false
     }
 ];

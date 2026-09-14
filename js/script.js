@@ -5,78 +5,62 @@
 
 // ===== PRODUCTOS DEL MENÚ =====
 const products = [
-    // TACOS
+    // TACOS (una tarjeta por tipo: Orden + Individual)
     {
-        id: 'taco-trompo-orden',
+        id: 'taco-trompo',
         category: 'tacos',
-        name: 'Trompo - Orden',
-        price: 75,
+        name: 'Trompo',
+        price: 0,
         emoji: '🌮',
         image: 'images/tacos-trompo.jpg',
-        hasVariants: false
+        hasVariants: true,
+        variantLabel: 'Elige tu presentación',
+        variants: [
+            { id: 'orden', label: 'Orden', price: 75 },
+            { id: 'individual', label: 'Taco individual', price: 17 }
+        ]
     },
     {
-        id: 'taco-trompo-ind',
+        id: 'taco-trompo-queso',
         category: 'tacos',
-        name: 'Trompo - Taco individual',
-        price: 17,
-        emoji: '🌮',
-        image: 'images/tacotrompoind.jpg',
-        hasVariants: false
-    },
-    {
-        id: 'taco-trompo-queso-orden',
-        category: 'tacos',
-        name: 'Trompo con Queso - Orden',
-        price: 85,
+        name: 'Trompo con Queso',
+        price: 0,
         emoji: '🌮',
         image: 'images/gringa-queso.jpg',
-        hasVariants: false
+        hasVariants: true,
+        variantLabel: 'Elige tu presentación',
+        variants: [
+            { id: 'orden', label: 'Orden', price: 85 },
+            { id: 'individual', label: 'Taco individual', price: 20 }
+        ]
     },
     {
-        id: 'taco-trompo-queso-ind',
+        id: 'taco-bistek',
         category: 'tacos',
-        name: 'Trompo con Queso - Taco individual',
-        price: 20,
+        name: 'Bistek',
+        price: 0,
         emoji: '🌮',
-        image: 'images/tacoquesoind.jpg',
-        hasVariants: false
+        image: 'images/tacos-bistek.jpg',
+        hasVariants: true,
+        variantLabel: 'Elige tu presentación',
+        variants: [
+            { id: 'orden', label: 'Orden', price: 85 },
+            { id: 'individual', label: 'Taco individual', price: 19 }
+        ]
     },
     {
-        id: 'taco-bistek-orden',
+        id: 'taco-bistek-queso',
         category: 'tacos',
-        name: 'Bistek - Orden',
-        price: 85,
+        name: 'Bistek con Queso',
+        price: 0,
         emoji: '🌮',
         image: 'images/orden-bistek.jpg',
-        hasVariants: false
-    },
-    {
-        id: 'taco-bistek-ind',
-        category: 'tacos',
-        name: 'Bistek - Taco individual',
-        price: 19,
-        emoji: '🌮',
-        image: 'images/tacobistek.jpg',
-        hasVariants: false
-    },
-    {
-        id: 'taco-bistek-queso-orden',
-        category: 'tacos',
-        name: 'Bistek con Queso - Orden',
-        price: 95,
-        emoji: '🌮',
-        image: 'images/gringa-queso.jpg',
-        hasVariants: false
-    },
-    {
-        id: 'taco-bistek-queso-ind',
-        category: 'tacos',
-        name: 'Bistek con Queso - Taco individual',
-        price: 22,
-        emoji: '🌮',
-        image: 'images/gringa-queso.jpg',
-        hasVariants: false
+        hasVariants: true,
+        variantLabel: 'Elige tu presentación',
+        variants: [
+            { id: 'orden', label: 'Orden', price: 95 },
+            { id: 'individual', label: 'Taco individual', price: 22 }
+        ]
     },
     {
         id: 'taco-campechana',
@@ -134,7 +118,7 @@ const products = [
         name: 'Hamburguesa Doble',
         price: 85,
         emoji: '🍔',
-        image: 'images/hamburguesa-2.jpg',
+        image: 'images/doble.jpg',
         hasVariants: false
     },
     {
@@ -181,7 +165,7 @@ const products = [
         name: 'Papa Asada con Queso',
         price: 80,
         emoji: '🥔',
-        image: 'images/papa-asada.jpg',
+        image: 'images/papaasadaqueso.jpg',
         hasVariants: false
     },
     {
@@ -190,7 +174,7 @@ const products = [
         name: 'Papa Asada con Carne',
         price: 95,
         emoji: '🥔',
-        image: 'images/mixto.jpg',
+        image: 'images/papa-mixta.jpg',
         hasVariants: true,
         variants: [
             { id: 'trompo', label: 'Trompo', price: 95 },
@@ -205,7 +189,7 @@ const products = [
         name: 'Papa Galeana',
         price: 0,
         emoji: '🥔',
-        image: 'images/papa-asada.jpg',
+        image: 'images/galeana.jpg',
         hasVariants: true,
         variants: [
             { id: 'chica', label: 'Chica', price: 40 },
@@ -218,7 +202,7 @@ const products = [
         name: 'Papa Galeana con Queso',
         price: 0,
         emoji: '🥔',
-        image: 'images/papa-asada.jpg',
+        image: 'images/galeanaqueso.jpg',
         hasVariants: true,
         variants: [
             { id: 'chica', label: 'Chica', price: 45 },
@@ -231,7 +215,7 @@ const products = [
         name: 'Papa Galeana con Carne',
         price: 0,
         emoji: '🥔',
-        image: 'images/papa-mixta.jpg',
+        image: 'images/papaqueso.jpg',
         hasVariants: true,
         variants: [
             { id: 'chica', label: 'Chica', price: 60 },
@@ -307,7 +291,14 @@ const products = [
         price: 28,
         emoji: '🥤',
         image: 'images/600ml.jpg',
-        hasVariants: false
+        hasVariants: true,
+        variantLabel: 'Elige el sabor',
+        variants: [
+            { id: 'coca', label: 'Coca Cola', price: 28 },
+            { id: 'coca-sin-azucar', label: 'Coca Cola Sin Azúcar', price: 28 },
+            { id: 'joya-ponche', label: 'Joya de Ponche', price: 28 },
+            { id: 'joya-manzana', label: 'Joya de Manzana', price: 28 }
+        ]
     },
     {
         id: 'pepsi-15',
@@ -455,43 +446,68 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ===== RENDER MENÚ =====
+const CATEGORY_LABELS = {
+    tacos: 'Tacos',
+    hamburguesas: 'Hamburguesas',
+    papas: 'Papas',
+    tortas: 'Tortas',
+    frijoles: 'Frijoles',
+    refrescos: 'Refrescos',
+    especialidades: 'Especialidad'
+};
+
 function renderMenu(category) {
     const filtered = category === 'all' 
         ? products 
         : products.filter(p => p.category === category);
+
+    if (!filtered.length) {
+        menuGrid.innerHTML = `
+            <div class="menu-empty">
+                <span>🌮</span>
+                <p>No hay productos en esta categoría.</p>
+            </div>`;
+        return;
+    }
     
     menuGrid.innerHTML = filtered.map((product, index) => {
-        const delay = Math.min(index * 0.06, 0.5);
+        const delay = Math.min(index * 0.05, 0.4);
         
         let variantsHTML = '';
         if (product.hasVariants) {
-            const label = product.variantLabel || 'Tamaño';
+            const label = product.variantLabel || 'Elige una opción';
             variantsHTML = `
                 <div class="product-variants">
                     <label class="variant-label">${label}</label>
                     <select class="variant-select" data-product-id="${product.id}">
-                        ${product.variants.map(v => 
-                            `<option value="${v.id}" data-price="${v.price}">${v.label} — $${v.price}</option>`
-                        ).join('')}
+                        ${product.variants.map(v => {
+                            const text = v.label.includes('$') ? v.label : `${v.label} — $${v.price}`;
+                            return `<option value="${v.id}" data-price="${v.price}">${text}</option>`;
+                        }).join('')}
                     </select>
                 </div>
             `;
         }
         
-        const displayPrice = product.hasVariants 
-            ? `Desde $${Math.min(...product.variants.map(v => v.price))}`
-            : `$${product.price}`;
+        const minPrice = product.hasVariants
+            ? Math.min(...product.variants.map(v => v.price))
+            : product.price;
+        const displayPrice = product.hasVariants ? `Desde $${minPrice}` : `$${product.price}`;
+        const catLabel = CATEGORY_LABELS[product.category] || product.category;
         
         const imageHTML = product.image
             ? `<img src="${product.image}" alt="${product.name}" loading="lazy">`
-            : product.emoji;
+            : `<span class="product-emoji">${product.emoji || '🌮'}</span>`;
         
         return `
             <article class="product-card" style="animation-delay: ${delay}s" data-category="${product.category}">
-                <div class="product-image">${imageHTML}</div>
+                <div class="product-image">
+                    ${imageHTML}
+                    <span class="product-cat-chip">${catLabel}</span>
+                    <span class="product-price-badge">${displayPrice}</span>
+                </div>
                 <div class="product-body">
                     <h3 class="product-name">${product.name}</h3>
-                    <div class="product-price">${displayPrice}</div>
                     ${variantsHTML}
                     <div class="product-actions">
                         <button class="btn btn-primary btn-sm btn-block add-to-cart" 
@@ -499,7 +515,7 @@ function renderMenu(category) {
                                 data-name="${product.name}"
                                 data-price="${product.price}"
                                 data-has-variants="${product.hasVariants}">
-                            + Agregar
+                            ＋ Agregar al pedido
                         </button>
                     </div>
                 </div>
@@ -507,8 +523,7 @@ function renderMenu(category) {
         `;
     }).join('');
     
-    // Attach add-to-cart listeners (menú + promociones)
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
+    document.querySelectorAll('.menu-grid .add-to-cart, .promociones .add-to-cart, .tlaquepaque .add-to-cart').forEach(btn => {
         btn.removeEventListener('click', handleAddToCart);
         btn.addEventListener('click', handleAddToCart);
     });
@@ -528,13 +543,22 @@ function handleAddToCart(e) {
         category = product.category;
         
         if (product.hasVariants) {
-            const select = btn.closest('.product-body')?.querySelector('.variant-select');
+            const select = btn.closest('.product-body, .modal-product-row, .product-card')
+                ?.querySelector('.variant-select, .modal-variant-select');
             if (select) {
                 const selectedOption = select.options[select.selectedIndex];
                 variant = selectedOption.value;
                 const variantData = product.variants.find(v => v.id === variant);
-                price = variantData.price;
-                name = `${product.name} (${variantData.label})`;
+                if (variantData) {
+                    price = variantData.price;
+                    name = `${product.name} (${variantData.label})`;
+                }
+            } else {
+                // Si no hay select visible, usar la primera variante
+                const first = product.variants[0];
+                variant = first.id;
+                price = first.price;
+                name = `${product.name} (${first.label})`;
             }
         }
     } else if (btn.dataset.name && btn.dataset.price) {
@@ -628,26 +652,36 @@ function updateCartUI() {
     const tabCount = document.getElementById('tabCartCount');
     if (tabCount) tabCount.textContent = count;
     
+    const pedidoFooter = document.getElementById('cartPedidoFooter');
+    const pedidoSub = document.getElementById('pedidoSubtotal');
+
     if (cart.length === 0) {
         if (cartEmpty) cartEmpty.style.display = 'block';
         if (cartItems) cartItems.innerHTML = '';
+        if (pedidoFooter) pedidoFooter.hidden = true;
     } else {
         if (cartEmpty) cartEmpty.style.display = 'none';
+        if (pedidoFooter) pedidoFooter.hidden = false;
+        if (pedidoSub) pedidoSub.textContent = `$${calculateSubtotal()}`;
         if (cartItems) {
             cartItems.innerHTML = cart.map(item => `
-                <div class="cart-item">
+                <article class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.name}</div>
-                        ${item.variant ? `<div class="cart-item-variant">${item.variant}</div>` : ''}
-                        <div class="cart-item-price">$${item.price} c/u · $${item.subtotal}</div>
+                        <div class="cart-item-meta">
+                            <span class="cart-item-unit">$${item.price} c/u</span>
+                            <span class="cart-item-line">$${item.subtotal}</span>
+                        </div>
                     </div>
                     <div class="cart-item-controls">
-                        <button class="qty-btn" onclick="updateQuantity('${item.cartKey}', -1)" aria-label="Disminuir">−</button>
-                        <span class="qty-value">${item.quantity}</span>
-                        <button class="qty-btn" onclick="updateQuantity('${item.cartKey}', 1)" aria-label="Aumentar">+</button>
-                        <button class="remove-btn" onclick="removeFromCart('${item.cartKey}')" aria-label="Eliminar">🗑️</button>
+                        <div class="qty-stepper" role="group" aria-label="Cantidad">
+                            <button type="button" class="qty-btn" onclick="updateQuantity('${item.cartKey}', -1)" aria-label="Disminuir">−</button>
+                            <span class="qty-value">${item.quantity}</span>
+                            <button type="button" class="qty-btn" onclick="updateQuantity('${item.cartKey}', 1)" aria-label="Aumentar">+</button>
+                        </div>
+                        <button type="button" class="remove-btn" onclick="removeFromCart('${item.cartKey}')" aria-label="Eliminar">✕</button>
                     </div>
-                </div>
+                </article>
             `).join('');
         }
     }
@@ -818,38 +852,18 @@ function sendWhatsAppOrder() {
 function updateOpenStatus() {
     const badge = document.getElementById('statusBadge');
     const now = new Date();
-    const day = now.getDay(); // 0=Dom, 1=Lun ... 6=Sab
+    const day = now.getDay(); // 0=Dom, 1=Lun, 2=Mar ... 6=Sáb
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const currentMinutes = hours * 60 + minutes;
-    
-    // Horarios:
-    // Dom-Jue (0-4): 17:00 - 01:00 (cierra después de medianoche)
-    // Vie-Sab (5-6): 17:00 - 02:00
-    
-    let isOpen = false;
-    
-    // Convertir a minutos desde medianoche
-    // Abre a las 17:00 = 1020 min
-    // Cierra Dom-Jue a 01:00 = 60 min (del día siguiente)
-    // Cierra Vie-Sab a 02:00 = 120 min
-    
-    if (day >= 0 && day <= 4) {
-        // Dom-Jue: abierto de 17:00 a 01:00
-        // Si es después de 17:00 del mismo día, o antes de 01:00
-        if (currentMinutes >= 1020 || currentMinutes < 60) {
-            isOpen = true;
-        }
-    } else {
-        // Vie-Sab: 17:00 a 02:00
-        if (currentMinutes >= 1020 || currentMinutes < 120) {
-            isOpen = true;
-        }
-    }
-    
-    // Caso especial: si son las 00:xx - 01:xx de un día, el horario pertenece al día anterior
-    // La lógica anterior ya lo contempla porque currentMinutes < 60 o < 120
-    
+
+    // Horario: Martes a Domingo 6:00 PM (18:00) — 12:00 AM (00:00)
+    // Lunes: cerrado todo el día
+    // Abierto 18:00–23:59; cerrado 00:00–17:59
+    const openFrom = 18 * 60; // 1080
+    const isOpenDay = day !== 1; // todos excepto lunes
+    const isOpen = isOpenDay && currentMinutes >= openFrom;
+
     if (badge) {
         if (isOpen) {
             badge.className = 'status-badge open';
@@ -866,9 +880,12 @@ function updateOpenStatus() {
         if (isOpen) {
             banner.className = 'order-status-banner open';
             banner.textContent = '🟢 Estamos abiertos. Puedes armar y confirmar tu pedido ahora.';
+        } else if (day === 1) {
+            banner.className = 'order-status-banner';
+            banner.textContent = '😴 Hoy es lunes y estamos cerrados. Abrimos de martes a domingo a las 6:00 PM.';
         } else {
             banner.className = 'order-status-banner';
-            banner.textContent = '😴 Estamos cerrados ahora mismo. Puedes armar tu pedido y lo confirmaremos al abrir (5:00 PM).';
+            banner.textContent = '😴 Estamos cerrados ahora mismo. Puedes armar tu pedido y lo confirmaremos al abrir (6:00 PM).';
         }
     }
 }
@@ -1187,17 +1204,22 @@ function renderModalMenu(category) {
     if (!list) return;
 
     const filtered = category === 'all'
-        ? products.filter(p => p.category !== 'refrescos')
+        ? products
         : products.filter(p => p.category === category);
+
+    if (!filtered.length) {
+        list.innerHTML = '<p class="modal-menu-empty">No hay productos en esta categoría.</p>';
+        return;
+    }
 
     list.innerHTML = filtered.map(product => {
         let variantsHTML = '';
         if (product.hasVariants) {
-            const label = product.variantLabel || 'Opción';
             variantsHTML = `
-                <select class="modal-variant-select" data-product-id="${product.id}">
+                <label class="modal-card-label">${product.variantLabel || 'Elige una opción'}</label>
+                <select class="modal-variant-select" data-product-id="${product.id}" aria-label="${product.variantLabel || 'Opción'}">
                     ${product.variants.map(v =>
-                        `<option value="${v.id}" data-price="${v.price}">${v.label} — $${v.price}</option>`
+                        `<option value="${v.id}" data-price="${v.price}">${v.label.includes('$') ? v.label : `${v.label} — $${v.price}`}</option>`
                     ).join('')}
                 </select>
             `;
@@ -1207,27 +1229,33 @@ function renderModalMenu(category) {
             ? `Desde $${Math.min(...product.variants.map(v => v.price))}`
             : `$${product.price}`;
 
+        const thumb = product.image
+            ? `<img src="${product.image}" alt="${product.name}" loading="lazy">`
+            : `<span class="modal-card-emoji">${product.emoji || '🌮'}</span>`;
+
         return `
-            <div class="modal-product-row" data-id="${product.id}">
-                <div class="modal-product-info">
-                    <strong>${product.name}</strong>
-                    <span class="modal-product-meta">${displayPrice}</span>
+            <article class="modal-menu-card modal-product-row" data-id="${product.id}">
+                <div class="modal-card-media">${thumb}</div>
+                <div class="modal-card-body">
+                    <div class="modal-card-top">
+                        <h4 class="modal-card-title">${product.name}</h4>
+                        <span class="modal-card-price">${displayPrice}</span>
+                    </div>
                     ${variantsHTML}
+                    <button type="button" class="btn btn-primary btn-sm modal-add-btn"
+                            data-id="${product.id}"
+                            data-name="${product.name}"
+                            data-price="${product.price}"
+                            data-has-variants="${product.hasVariants}">
+                        ＋ Agregar
+                    </button>
                 </div>
-                <span class="modal-product-price">${product.hasVariants ? '' : '$' + product.price}</span>
-                <button class="btn btn-primary btn-sm modal-add-btn"
-                        data-id="${product.id}"
-                        data-name="${product.name}"
-                        data-price="${product.price}"
-                        data-has-variants="${product.hasVariants}">
-                    ＋
-                </button>
-            </div>
+            </article>
         `;
     }).join('');
 
     list.querySelectorAll('.modal-add-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
             const id = btn.dataset.id;
             const product = products.find(p => p.id === id);
             if (!product) return;
@@ -1237,12 +1265,13 @@ function renderModalMenu(category) {
             let variant = null;
 
             if (product.hasVariants) {
-                const select = btn.closest('.modal-product-row').querySelector('.modal-variant-select');
+                const select = btn.closest('.modal-product-row')?.querySelector('.modal-variant-select');
                 if (select) {
                     const opt = select.options[select.selectedIndex];
                     variant = opt.value;
                     price = parseInt(opt.dataset.price, 10);
-                    name = `${product.name} (${opt.textContent.split('—')[0].trim()})`;
+                    const label = opt.textContent.split('—')[0].trim();
+                    name = `${product.name} (${label})`;
                 }
             }
 

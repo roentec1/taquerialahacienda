@@ -783,8 +783,20 @@ function generateWhatsAppMessage() {
     }
     
     if (payment) {
-        const payLabel = payment.value === 'efectivo' ? 'Efectivo 💵' : 'Transferencia 🏦';
-        message += `Forma de pago: ${payLabel}\n`;
+        if (payment.value === 'efectivo') {
+            const cashRaw = document.getElementById('cashAmount')?.value.trim() || '';
+            const cashAmount = parseFloat(cashRaw);
+            message += `Forma de pago: Efectivo 💵\n`;
+            if (!isNaN(cashAmount) && cashAmount > 0) {
+                message += `Paga con: $${cashAmount}\n`;
+                const change = cashAmount - total;
+                if (change >= 0) {
+                    message += `Cambio: $${change}\n`;
+                }
+            }
+        } else {
+            message += `Forma de pago: Transferencia 🏦\n`;
+        }
     }
     
     message += `\n¡Gracias!`;
@@ -834,6 +846,17 @@ function sendWhatsAppOrder() {
     if (!payment) {
         showToast('Selecciona forma de pago', true);
         hasError = true;
+    }
+
+    if (payment && payment.value === 'efectivo') {
+        const cashInput = document.getElementById('cashAmount');
+        const cashAmount = parseFloat(cashInput?.value || '');
+        const total = calculateTotal();
+        if (!cashInput?.value.trim() || isNaN(cashAmount) || cashAmount < total) {
+            cashInput?.classList.add('error');
+            showToast(cashAmount < total ? 'La cantidad debe cubrir el total del pedido' : 'Indica con cuánto pagarás en efectivo', true);
+            hasError = true;
+        }
     }
     
     if (hasError) {
@@ -937,9 +960,21 @@ function setupEventListeners() {
     document.querySelectorAll('input[name="payment"]').forEach(radio => {
         radio.addEventListener('change', () => {
             const note = document.getElementById('transferNote');
+            const cashGroup = document.getElementById('cashAmountGroup');
             if (note) note.style.display = radio.value === 'transferencia' ? 'block' : 'none';
+            if (cashGroup) cashGroup.style.display = radio.value === 'efectivo' ? 'block' : 'none';
+            if (radio.value !== 'efectivo') {
+                const cashInput = document.getElementById('cashAmount');
+                if (cashInput) {
+                    cashInput.value = '';
+                    cashInput.classList.remove('error');
+                }
+            }
+            updateCashChangeHint();
         });
     });
+
+    document.getElementById('cashAmount')?.addEventListener('input', updateCashChangeHint);
     
     // Confirm order
     document.getElementById('confirmOrder')?.addEventListener('click', () => {
@@ -1005,11 +1040,33 @@ function closeCart() {
 }
 
 function showToast(message, isError = false) {
+    if (!toast) return;
     toast.textContent = message;
     toast.className = 'toast show' + (isError ? ' error' : '');
-    setTimeout(() => {
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => {
         toast.classList.remove('show');
     }, 2800);
+}
+
+function updateCashChangeHint() {
+    const hint = document.getElementById('cashChangeHint');
+    const cashInput = document.getElementById('cashAmount');
+    if (!hint || !cashInput) return;
+
+    const total = calculateTotal();
+    const cashAmount = parseFloat(cashInput.value);
+    if (!cashInput.value.trim() || isNaN(cashAmount)) {
+        hint.textContent = total > 0
+            ? `Total a pagar: $${total}. Indica con cuánto pagarás para el cambio.`
+            : 'Para preparar tu cambio';
+        return;
+    }
+    if (cashAmount < total) {
+        hint.textContent = `Falta cubrir el total ($${total}).`;
+        return;
+    }
+    hint.textContent = `Cambio aproximado: $${cashAmount - total}`;
 }
 
 // Make functions available globally for onclick

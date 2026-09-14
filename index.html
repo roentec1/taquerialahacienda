@@ -32,15 +32,9 @@
         "openingHoursSpecification": [
             {
                 "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
-                "opens": "17:00",
-                "closes": "01:00"
-            },
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Friday", "Saturday"],
-                "opens": "17:00",
-                "closes": "02:00"
+                "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                "opens": "18:00",
+                "closes": "00:00"
             }
         ],
         "paymentAccepted": "Cash, Bank Transfer",
@@ -164,7 +158,7 @@
                 <button class="category-btn" data-category="tortas">🥪 Tortas</button>
                 <button class="category-btn" data-category="frijoles">🫘 Frijoles Charros</button>
                 <button class="category-btn" data-category="refrescos">🥤 Refrescos</button>
-                <button class="category-btn" data-category="especialidades">🧀 Especialidades</button>
+                <!--<button class="category-btn" data-category="especialidades">🧀 Especialidades</button>-->
             </div>
             
             <div class="menu-grid" id="menuGrid">
@@ -362,8 +356,12 @@
                 </div>
                 <div class="horarios-grid">
                     <div class="horario-card">
-                        <h3>Lunes a Domingo</h3>
+                        <h3>Martes a Domingo</h3>
                         <p class="horario-time">6:00 PM — 12:00 AM</p>
+                    </div>
+                    <div class="horario-card">
+                        <h3>Lunes</h3>
+                        <p class="horario-time">Cerrado</p>
                     </div>
                 </div>
             </div>
@@ -397,7 +395,7 @@
                         <span class="contacto-icon">📘</span>
                         <div>
                             <h4>Facebook</h4>
-                            <a href="https://www.facebook.com/taqueria.la.hacienda.2025" target="_blank" rel="noopener">Taquería La Hacienda</a>
+                            <a href="#" target="_blank" rel="noopener">Taquería La Hacienda</a>
                         </div>
                     </div>
                     <div class="contacto-item">
@@ -414,15 +412,15 @@
                         <p><strong>Dirección:</strong> Hacienda La Palma 101</p>
                         <p><strong>Colonia:</strong> Rincón de La Hacienda 1er Sector</p>
                         <p><strong>Municipio:</strong> Guadalupe</p>
-                        <p><strong>Estado:</strong> N.L.</p>
+                        <p><strong>Estado:</strong> Nuevo Leon</p>
                         <p><strong>Código postal:</strong> 67168</p>
-                        <p><strong>Referencias:</strong> Aun lado de Pollos Tavos, se te antoja un pollito tambien?</p>
+                        <p><strong>Referencias:</strong> Aun lado de Pollos Tavos, por si deseas un polito asado tambien!</p>
                         <button class="btn btn-outline" disabled title="Próximamente">📍 CÓMO LLEGAR</button>
                     </div>
                 </div>
             </div>
             <div class="social-links">
-                <a href="https://www.facebook.com/taqueria.la.hacienda.2025" class="social-btn" target="_blank" rel="noopener" aria-label="Facebook">
+                <a href="#" class="social-btn disabled" target="_blank" rel="noopener" aria-label="Facebook (próximamente)">
                     <span>📘</span> Facebook
                 </a>
                 <a href="#" class="social-btn disabled" aria-label="Instagram (próximamente)">
@@ -467,10 +465,10 @@
             <button type="button" class="order-tab active" data-tab="pedido" role="tab" aria-selected="true">
                 🛒 Pedido <span class="tab-count" id="tabCartCount">0</span>
             </button>
-            <button type="button" class="order-tab" data-tab="paquetes" role="tab" aria-selected="false">Paquetes</button>
-            <button type="button" class="order-tab" data-tab="menu" role="tab" aria-selected="false">Menú</button>
-            <button type="button" class="order-tab" data-tab="extras" role="tab" aria-selected="false">＋Extras</button>
-            <button type="button" class="order-tab" data-tab="datos" role="tab" aria-selected="false">Datos</button>
+            <button type="button" class="order-tab" data-tab="paquetes" role="tab" aria-selected="false">🔥 Paquetes</button>
+            <button type="button" class="order-tab" data-tab="menu" role="tab" aria-selected="false">🌮 Menú</button>
+            <button type="button" class="order-tab" data-tab="extras" role="tab" aria-selected="false">＋ Extras</button>
+            <button type="button" class="order-tab" data-tab="datos" role="tab" aria-selected="false">📋 Datos</button>
         </div>
 
         <div class="order-modal-body">
@@ -478,61 +476,135 @@
             <div class="order-panel active" id="panel-pedido" role="tabpanel">
                 <div class="order-status-banner" id="orderStatusBanner"></div>
                 <div class="cart-empty" id="cartEmpty">
-                    <p>Tu pedido está vacío. Agrega promociones, paquetes o complementos.</p>
+                    <div class="empty-icon-wrap" aria-hidden="true">🛒</div>
+                    <p class="empty-title">Tu pedido está vacío</p>
+                    <p class="empty-desc">Agrega promociones, paquetes o algo del menú para empezar.</p>
                     <p class="cart-note">“Si hay lluvia el costo de envío puede variar”</p>
                     <div class="empty-actions">
-                        <button type="button" class="btn btn-primary btn-sm switch-tab" data-tab="paquetes">Ver paquetes</button>
-                        <button type="button" class="btn btn-secondary btn-sm switch-tab" data-tab="menu">Ver menú</button>
+                        <button type="button" class="btn btn-primary btn-sm switch-tab" data-tab="paquetes">🔥 Ver paquetes</button>
+                        <button type="button" class="btn btn-secondary btn-sm switch-tab" data-tab="menu">🌮 Ver menú</button>
+                        <button type="button" class="btn btn-outline btn-sm switch-tab" data-tab="extras">＋ Extras</button>
                     </div>
                 </div>
                 <div class="cart-items" id="cartItems"></div>
-                <button type="button" class="btn-vaciar" id="clearCart">🗑 Vaciar pedido</button>
+                <div class="cart-pedido-footer" id="cartPedidoFooter" hidden>
+                    <div class="cart-mini-summary">
+                        <span>Subtotal productos</span>
+                        <strong id="pedidoSubtotal">$0</strong>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block switch-tab" data-tab="datos">Continuar a Datos →</button>
+                    <button type="button" class="btn-vaciar" id="clearCart">🗑 Vaciar pedido</button>
+                </div>
             </div>
 
             <!-- TAB: PAQUETES / PROMOCIONES -->
             <div class="order-panel" id="panel-paquetes" role="tabpanel" hidden>
-                <p class="panel-intro">Elige un paquete o promoción y agrégalo a tu pedido:</p>
-                <div class="modal-product-list" id="modalPaquetes">
-                    <div class="modal-product-row">
-                        <div class="modal-product-info">
-                            <strong>2 Gringas Chicas</strong>
-                            <span class="modal-product-meta">Todos los días · antes $130</span>
+                <p class="panel-intro">Promos y especialidades listas para agregar a tu pedido:</p>
+                <div class="paquetes-grid" id="modalPaquetes">
+
+                    <article class="paquete-card">
+                        <div class="paquete-media">
+                            <img src="images/promo-gringas.jpg" alt="2 Gringas Chicas" loading="lazy">
+                            <span class="paquete-badge">Todos los días</span>
+                            <span class="paquete-save">Ahorras $21</span>
                         </div>
-                        <span class="modal-product-price">$109</span>
-                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-gringas" data-name="PROMO: 2 Gringas Chicas" data-price="109" data-category="promociones">＋</button>
-                    </div>
-                    <div class="modal-product-row">
-                        <div class="modal-product-info">
-                            <strong>3 Órdenes Tlaquepaque + Pepsi 1.5L</strong>
-                            <span class="modal-product-meta">Todos los días · antes $320</span>
+                        <div class="paquete-body">
+                            <h4 class="paquete-title">2 Gringas Chicas</h4>
+                            <p class="paquete-desc">Dos gringas chicas al precio especial.</p>
+                            <div class="paquete-prices">
+                                <span class="paquete-price">$109</span>
+                                <span class="paquete-old">$130</span>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm btn-block add-to-cart"
+                                data-id="promo-gringas"
+                                data-name="PROMO: 2 Gringas Chicas"
+                                data-price="109"
+                                data-category="promociones">＋ Agregar promo</button>
                         </div>
-                        <span class="modal-product-price">$285</span>
-                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-tlaquepaque" data-name="PROMO: 3 Órdenes Tlaquepaque + Pepsi 1.5L GRATIS" data-price="285" data-category="promociones">＋</button>
-                    </div>
-                    <div class="modal-product-row">
-                        <div class="modal-product-info">
-                            <strong>3 Hamburguesas Especiales</strong>
-                            <span class="modal-product-meta">Todos los días · antes $225</span>
+                    </article>
+
+                    <article class="paquete-card">
+                        <div class="paquete-media">
+                            <img src="images/promo-tlaquepaque.jpg" alt="3 Órdenes Tlaquepaque" loading="lazy">
+                            <span class="paquete-badge">Todos los días</span>
+                            <span class="paquete-save">+ Pepsi GRATIS</span>
                         </div>
-                        <span class="modal-product-price">$199</span>
-                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-hamb" data-name="PROMO: 3 Hamburguesas Especiales" data-price="199" data-category="promociones">＋</button>
-                    </div>
-                    <div class="modal-product-row">
-                        <div class="modal-product-info">
-                            <strong>2 Órdenes de Trompo</strong>
-                            <span class="modal-product-meta">Mar · Mié · Jue · Dom · antes $150</span>
+                        <div class="paquete-body">
+                            <h4 class="paquete-title">3 Órdenes Tlaquepaque</h4>
+                            <p class="paquete-desc">Incluye Pepsi 1.5 L de regalo.</p>
+                            <div class="paquete-prices">
+                                <span class="paquete-price">$285</span>
+                                <span class="paquete-old">$320</span>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm btn-block add-to-cart"
+                                data-id="promo-tlaquepaque"
+                                data-name="PROMO: 3 Órdenes Tlaquepaque + Pepsi 1.5L GRATIS"
+                                data-price="285"
+                                data-category="promociones">＋ Agregar promo</button>
                         </div>
-                        <span class="modal-product-price">$119</span>
-                        <button class="btn btn-primary btn-sm add-to-cart" data-id="promo-trompo" data-name="PROMO: 2 Órdenes de Trompo (Mar-Mié-Jue-Dom)" data-price="119" data-category="promociones">＋</button>
-                    </div>
-                    <div class="modal-product-row">
-                        <div class="modal-product-info">
-                            <strong>Tlaquepaque — Orden de 5 tacos</strong>
-                            <span class="modal-product-meta">Especialidad</span>
+                    </article>
+
+                    <article class="paquete-card">
+                        <div class="paquete-media">
+                            <img src="images/promo-hamburguesas.jpg" alt="3 Hamburguesas Especiales" loading="lazy">
+                            <span class="paquete-badge">Todos los días</span>
+                            <span class="paquete-save">Ahorras $26</span>
                         </div>
-                        <span class="modal-product-price">$95</span>
-                        <button class="btn btn-primary btn-sm add-to-cart" data-id="tlaq-orden" data-name="Tlaquepaque - Orden de 5 tacos" data-price="95" data-category="especialidades">＋</button>
-                    </div>
+                        <div class="paquete-body">
+                            <h4 class="paquete-title">3 Hamburguesas Especiales</h4>
+                            <p class="paquete-desc">Paquete ideal para compartir.</p>
+                            <div class="paquete-prices">
+                                <span class="paquete-price">$199</span>
+                                <span class="paquete-old">$225</span>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm btn-block add-to-cart"
+                                data-id="promo-hamb"
+                                data-name="PROMO: 3 Hamburguesas Especiales"
+                                data-price="199"
+                                data-category="promociones">＋ Agregar promo</button>
+                        </div>
+                    </article>
+
+                    <article class="paquete-card">
+                        <div class="paquete-media">
+                            <img src="images/promo-trompo.jpg" alt="2 Órdenes de Trompo" loading="lazy">
+                            <span class="paquete-badge paquete-badge--limited">Mar · Mié · Jue · Dom</span>
+                            <span class="paquete-save">Ahorras $31</span>
+                        </div>
+                        <div class="paquete-body">
+                            <h4 class="paquete-title">2 Órdenes de Trompo</h4>
+                            <p class="paquete-desc">Solo ciertos días de la semana.</p>
+                            <div class="paquete-prices">
+                                <span class="paquete-price">$119</span>
+                                <span class="paquete-old">$150</span>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm btn-block add-to-cart"
+                                data-id="promo-trompo"
+                                data-name="PROMO: 2 Órdenes de Trompo (Mar-Mié-Jue-Dom)"
+                                data-price="119"
+                                data-category="promociones">＋ Agregar promo</button>
+                        </div>
+                    </article>
+
+                    <article class="paquete-card paquete-card--especial">
+                        <div class="paquete-media">
+                            <img src="images/tacos-orden.jpg" alt="Tlaquepaque Orden de 5" loading="lazy">
+                            <span class="paquete-badge paquete-badge--gold">Especialidad</span>
+                        </div>
+                        <div class="paquete-body">
+                            <h4 class="paquete-title">Tlaquepaque — Orden de 5</h4>
+                            <p class="paquete-desc">Nuestra especialidad estrella.</p>
+                            <div class="paquete-prices">
+                                <span class="paquete-price">$95</span>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm btn-block add-to-cart"
+                                data-id="tlaq-orden"
+                                data-name="Tlaquepaque - Orden de 5 tacos"
+                                data-price="95"
+                                data-category="especialidades">＋ Agregar</button>
+                        </div>
+                    </article>
+
                 </div>
             </div>
 
@@ -545,6 +617,7 @@
                     <button type="button" class="modal-filter" data-cat="papas">Papas</button>
                     <button type="button" class="modal-filter" data-cat="tortas">Tortas</button>
                     <button type="button" class="modal-filter" data-cat="frijoles">Frijoles</button>
+                    <button type="button" class="modal-filter" data-cat="refrescos">Refrescos</button>
                 </div>
                 <div class="modal-product-list" id="modalMenuList"></div>
             </div>
@@ -556,9 +629,15 @@
                     <div class="modal-product-row">
                         <div class="modal-product-info">
                             <strong>Refresco 600 ml</strong>
+                            <select class="modal-variant-select variant-select" data-product-id="refresco-600" aria-label="Sabor del refresco">
+                                <option value="coca" data-price="28">Coca Cola — $28</option>
+                                <option value="coca-sin-azucar" data-price="28">Coca Cola Sin Azúcar — $28</option>
+                                <option value="joya-ponche" data-price="28">Joya de Ponche — $28</option>
+                                <option value="joya-manzana" data-price="28">Joya de Manzana — $28</option>
+                            </select>
                         </div>
                         <span class="modal-product-price">$28</span>
-                        <button class="btn btn-primary btn-sm add-to-cart" data-id="refresco-600" data-name="Refresco 600 ml" data-price="28" data-category="refrescos">＋</button>
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="refresco-600" data-name="Refresco 600 ml" data-price="28" data-category="refrescos" data-has-variants="true">＋</button>
                     </div>
                     <div class="modal-product-row">
                         <div class="modal-product-info">

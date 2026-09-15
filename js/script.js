@@ -314,7 +314,7 @@ const products = [
 // ===== ESTADO DEL CARRITO =====
 let cart = [];
 const SHIPPING_COST = 30;
-const WHATSAPP_NUMBER = '528134020722';
+const WHATSAPP_NUMBER = '528119047379';
 
 /*
  * ============================================================
@@ -796,6 +796,10 @@ function generateWhatsAppMessage() {
             }
         } else {
             message += `Forma de pago: Transferencia 🏦\n`;
+            message += `Banco: BBVA Bancomer\n`;
+            message += `Cuenta: 4152-3137-7636-4239\n`;
+            message += `Titular: Nancy Rodríguez\n`;
+            message += `(Envío comprobante por este chat)\n`;
         }
     }
     

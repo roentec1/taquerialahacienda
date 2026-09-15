@@ -314,7 +314,7 @@ const products = [
 // ===== ESTADO DEL CARRITO =====
 let cart = [];
 const SHIPPING_COST = 30;
-const WHATSAPP_NUMBER = '528119047379';
+const WHATSAPP_NUMBER = '528134020722';
 
 /*
  * ============================================================

@@ -145,7 +145,7 @@ const products = [
         name: 'Hamburguesa con Bistek',
         price: 90,
         emoji: '🍔',
-        image: 'images/hconbistek.jpg',
+        image: 'images/hconbistek.jpeg',
         hasVariants: false
     },
 
@@ -202,7 +202,7 @@ const products = [
         name: 'Papa Galeana con Queso',
         price: 0,
         emoji: '🥔',
-        image: 'images/papagqueso.jpg',
+        image: 'images/papagqueso.jpeg',
         hasVariants: true,
         variants: [
             { id: 'chica', label: 'Chica', price: 45 },
@@ -215,7 +215,7 @@ const products = [
         name: 'Papa Galeana con Carne',
         price: 0,
         emoji: '🥔',
-        image: 'images/papagcarne.jpg',
+        image: 'images/papagcarne.jpeg',
         hasVariants: true,
         variants: [
             { id: 'chica', label: 'Chica', price: 60 },

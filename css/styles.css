@@ -2742,13 +2742,42 @@ button, input, textarea, select {
 }
 
 .transfer-note {
-    margin-top: 10px;
-    padding: 12px;
+    margin-top: 12px;
+    padding: 14px;
     background: rgba(212, 160, 23, 0.1);
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
+    border: 1px solid rgba(212, 160, 23, 0.25);
+    border-radius: 12px;
+    font-size: 0.85rem;
     color: var(--color-gold);
     line-height: 1.5;
+}
+
+.transfer-note-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-cream);
+}
+
+.transfer-details {
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.transfer-details li {
+    margin-bottom: 4px;
+    color: var(--color-gray-light);
+}
+
+.transfer-details strong {
+    color: var(--color-gold);
+}
+
+.transfer-note-footer {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--color-gray);
 }
 
 .summary-lines {
